@@ -272,19 +272,19 @@ namespace LibUsbDotNet.Main
         /// <returns>True if the <see cref="UsbRegistry"/> instance matches the <see cref="UsbDeviceFinder"/> properties.</returns>
         public virtual bool Check(UsbRegistry usbRegistry)
         {
-            if (mVid != int.MaxValue)
-                if (usbRegistry.Vid != mVid) return false;
-            if (mPid != int.MaxValue)
-                if (usbRegistry.Pid != mPid) return false;
-            if (mRevision != int.MaxValue)
-                if (usbRegistry.Rev != mRevision) return false;
+            if (mVid != null && mVid != int.MaxValue && mVid != usbRegistry.Vid)
+                return false;
+            if (mPid != null && mPid != int.MaxValue && mPid != usbRegistry.Pid)
+                return false;
+            if (mRevision != null && mRevision != int.MaxValue && mRevision != usbRegistry.Rev)
+                return false;
 
             if (!String.IsNullOrEmpty(mSerialNumber))
             {
                 if (String.IsNullOrEmpty(usbRegistry.SymbolicName)) return false;
 
                 UsbSymbolicName usbSymbolicName = UsbSymbolicName.Parse(usbRegistry.SymbolicName);
-                if (mSerialNumber != usbSymbolicName.SerialNumber) return false;
+                if (mSerialNumber != null && mSerialNumber != usbSymbolicName.SerialNumber) return false;
             }
             if (mDeviceInterfaceGuid != Guid.Empty)
             {
